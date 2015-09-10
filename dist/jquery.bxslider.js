@@ -31,6 +31,7 @@
     responsive: true,
     slideZIndex: 50,
     wrapperClass: 'bx-wrapper',
+    disabled: false,
 
     // TOUCH
     touchEnabled: true,
@@ -1332,6 +1333,10 @@
      *  - INTERNAL USE ONLY - the direction of travel ("prev" / "next")
      */
     el.goToSlide = function(slideIndex, direction) {
+      // Skips action if 'disabled' option is on
+      if(slider.settings.disabled) {
+        return;
+      }
       // onSlideBefore, onSlideNext, onSlidePrev callbacks
       // Allow transition canceling based on returned value
       var performTransition = true,
@@ -1601,6 +1606,14 @@
       init();
       //store reference to self in order to access public functions later
       $(el).data('bxSlider', this);
+    };
+
+    /**
+     * Changes 'disabled' option to escape from 'goToSlide' function. Useful when we want to disable temporarily slider
+     * @param isDisabled (bool)
+     */
+    el.disable = function(isDisabled) {
+      slider.settings.disabled = isDisabled;
     };
 
     init();
